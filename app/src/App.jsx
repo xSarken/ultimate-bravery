@@ -225,10 +225,6 @@ export default function App() {
             <button className="ghost-btn" onClick={handleCopy}>{copyLabel}</button>
           </div>
         )}
-        <div className="asset-note">
-          ℹ️ Icons try to load real Riot art from Data Dragon first. If your environment blocks that
-          request, each icon falls back instantly to a colored monogram so the layout never breaks.
-        </div>
       </motion.div>
 
       <motion.div

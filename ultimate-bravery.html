@@ -113,8 +113,6 @@
   .share-row{display:none; margin-top:14px; gap:8px; align-items:center;}
   .share-row.show{display:flex;}
   .share-row input{flex:1; font-size:13px;}
-  .asset-note{font-size:11.5px; color:var(--text-dim); margin-top:10px; line-height:1.5;}
-  .asset-note b{color:var(--chaos-bright);}
 
   /* Spotlight reveal */
   #spotlightWrap{display:none; justify-content:center; padding:10px 0 6px;}
@@ -279,7 +277,6 @@
       <input type="text" class="seed-input" id="shareInput" readonly>
       <button class="ghost-btn" id="copyBtn">Copy</button>
     </div>
-    <div class="asset-note" id="assetNote">⏳ Loading live champion, item, and rune art from Data Dragon…</div>
   </div>
 
   <div class="panel" style="padding-top:22px;">
@@ -1439,7 +1436,6 @@ function initBackgroundChampions(){
 initNameInputs();
 initThemeSelect();
 initBackgroundChampions();
-document.getElementById('assetNote').textContent = 'ℹ️ Icons try to load real Riot art from Data Dragon first. If this preview environment blocks that request, each icon falls back instantly to a colored monogram so the layout never breaks — outside this sandbox (e.g. hosted on GitHub Pages) the real icons should load normally.';
 loadFromUrl(false);
 
 document.addEventListener('mousemove', (e)=>{
