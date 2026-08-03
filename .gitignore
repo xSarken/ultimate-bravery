@@ -1,0 +1,5 @@
+# Local Claude Code settings/permissions — not part of the app
+.claude/
+
+# Locally downloaded team images — personal artifacts, not source
+teams/
