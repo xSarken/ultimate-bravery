@@ -32,16 +32,25 @@ function pickRunes(rng){
 // mutually-exclusive onlyTank/onlyAP/onlyAD build-archetype trio) removes
 // the rest of that group too, so a slot never gets told to build two
 // contradictory item sets at once.
+// Build-archetype challenges (full tank/AP/AD) are rare and mutually
+// exclusive by design — rather than just being 3 entries in the general
+// pool (which ties their odds to how many other challenges exist),
+// each gets an explicit independent target chance. A single weighted
+// roll decides whether ANY archetype challenge fires this slot (their
+// combined chance), and if it does, one is picked uniformly from the
+// three — that keeps each one's individual odds exactly at ARCHETYPE_CHANCE_EACH
+// regardless of how the rest of the challenge pool grows or shrinks.
+const ARCHETYPE_CHALLENGES = CHALLENGES.filter(c => c.group === 'buildArchetype');
+const ARCHETYPE_CHANCE_EACH = 0.045;
+const NON_ARCHETYPE_CHALLENGES = CHALLENGES.filter(c => c.group !== 'buildArchetype');
+
 function pickChallenges(rng, role){
-  let pool = (role.key === 'adc' ? CHALLENGES.filter(c=>!c.noBoots) : CHALLENGES).slice();
+  const pool = role.key === 'adc' ? NON_ARCHETYPE_CHALLENGES.filter(c=>!c.noBoots) : NON_ARCHETYPE_CHALLENGES;
   const out = [];
-  for(let i=0;i<3 && pool.length>0;i++){
-    const idx = Math.floor(rng()*pool.length);
-    const picked = pool[idx];
-    out.push(picked);
-    pool = pool.filter(c => c!==picked && !(picked.group && c.group===picked.group));
+  if(rng() < ARCHETYPE_CHALLENGES.length * ARCHETYPE_CHANCE_EACH){
+    out.push(pickOne(rng, ARCHETYPE_CHALLENGES));
   }
-  return out;
+  return [...out, ...pickUnique(rng, pool, 3 - out.length)];
 }
 
 function insertAtRandomIndex(rng, arr, item, minIndex){
