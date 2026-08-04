@@ -2,7 +2,7 @@
 // Dragon, Riot's public asset CDN. If Riot ever changes an icon's ID, the
 // onerror handler on the <img> just swaps it for a colored monogram —
 // nothing ever breaks.
-export const DD_VER = "14.23.1"; // any valid past patch works forever — ddragon never deletes old version folders
+export const DD_VER = "16.15.1"; // any valid past patch works forever — ddragon never deletes old version folders
 export function ddItem(id){ return `https://ddragon.leagueoflegends.com/cdn/${DD_VER}/img/item/${id}.png`; }
 export function ddSpell(file){ return `https://ddragon.leagueoflegends.com/cdn/${DD_VER}/img/spell/${file}.png`; }
 export function ddChampionLoading(champId){ return `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champId}_0.jpg`; }
@@ -70,9 +70,9 @@ export const RUNE_TREES = {
         {name:"Sudden Impact", icon:rIcon("perk-images/Styles/Domination/SuddenImpact/SuddenImpact.png")}
       ],
       [
-        {name:"Zombie Ward", icon:rIcon("perk-images/Styles/Domination/ZombieWard/ZombieWard.png")},
-        {name:"Ghost Poro", icon:rIcon("perk-images/Styles/Domination/GhostPoro/GhostPoro.png")},
-        {name:"Eyeball Collection", icon:rIcon("perk-images/Styles/Domination/EyeballCollection/EyeballCollection.png")}
+        {name:"Sixth Sense", icon:rIcon("perk-images/Styles/Domination/SixthSense/SixthSense.png")},
+        {name:"Grisly Mementos", icon:rIcon("perk-images/Styles/Domination/GrislyMementos/GrislyMementos.png")},
+        {name:"Deep Ward", icon:rIcon("perk-images/Styles/Domination/DeepWard/DeepWard.png")}
       ],
       [
         {name:"Treasure Hunter", icon:rIcon("perk-images/Styles/Domination/TreasureHunter/TreasureHunter.png")},
@@ -86,11 +86,12 @@ export const RUNE_TREES = {
     keystones:[
       {name:"Summon Aery", icon:rIcon("perk-images/Styles/Sorcery/SummonAery/SummonAery.png")},
       {name:"Arcane Comet", icon:rIcon("perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png")},
-      {name:"Phase Rush", icon:rIcon("perk-images/Styles/Sorcery/PhaseRush/PhaseRush.png")}
+      {name:"Stormraider's Surge", icon:rIcon("perk-images/Styles/Sorcery/PhaseRush/StormraidersSurgeRuneIcon2.png")},
+      {name:"Deathfire Touch", icon:rIcon("perk-images/Styles/Sorcery/DeathfireTouch/DEATHFIRE_TOUCH_KEYSTONE.png")}
     ],
     rows:[
       [
-        {name:"Nullifying Orb", icon:rIcon("perk-images/Styles/Sorcery/NullifyingOrb/Pokeshield.png")},
+        {name:"Axiom Arcanist", icon:rIcon("perk-images/Styles/Sorcery/NullifyingOrb/Axiom_Arcanist.png")},
         {name:"Manaflow Band", icon:rIcon("perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png")},
         {name:"Nimbus Cloak", icon:rIcon("perk-images/Styles/Sorcery/NimbusCloak/6361.png")}
       ],
@@ -185,15 +186,15 @@ export const STAT_SHARDS = {
 
 // Curated pool of long-standing items with verified stable numeric IDs (renders real icons)
 export const ITEM_POOL = [
-  {name:"Infinity Edge", id:3031}, {name:"Rabadon's Deathcap", id:3089}, {name:"Trinity Force", id:3078},
-  {name:"Sunfire Aegis", id:3068, tank:true}, {name:"Guinsoo's Rageblade", id:3124}, {name:"Blade of the Ruined King", id:3153},
-  {name:"Nashor's Tooth", id:3115}, {name:"Manamune", id:3004}, {name:"Youmuu's Ghostblade", id:3142},
-  {name:"Void Staff", id:3135}, {name:"Zhonya's Hourglass", id:3157}, {name:"Banshee's Veil", id:3102, tank:true},
+  {name:"Infinity Edge", id:3031, ad:true}, {name:"Rabadon's Deathcap", id:3089, ap:true}, {name:"Trinity Force", id:3078, ad:true},
+  {name:"Sunfire Aegis", id:3068, tank:true}, {name:"Guinsoo's Rageblade", id:3124, ad:true}, {name:"Blade of the Ruined King", id:3153, ad:true},
+  {name:"Nashor's Tooth", id:3115, ap:true}, {name:"Manamune", id:3004, ad:true}, {name:"Youmuu's Ghostblade", id:3142, ad:true},
+  {name:"Void Staff", id:3135, ap:true}, {name:"Zhonya's Hourglass", id:3157, ap:true}, {name:"Banshee's Veil", id:3102, tank:true, ap:true},
   {name:"Spirit Visage", id:3065, tank:true}, {name:"Thornmail", id:3075, tank:true}, {name:"Randuin's Omen", id:3143, tank:true},
-  {name:"Frozen Heart", id:3110, tank:true}, {name:"Locket of the Iron Solari", id:3190, tank:true}, {name:"Redemption", id:3107},
-  {name:"Bloodthirster", id:3072}, {name:"Statikk Shiv", id:3087}, {name:"Runaan's Hurricane", id:3085},
-  {name:"Rapid Firecannon", id:3094}, {name:"Essence Reaver", id:3508}, {name:"Sterak's Gage", id:3053, tank:true},
-  {name:"Black Cleaver", id:3071}, {name:"Morellonomicon", id:3165}, {name:"Mikael's Blessing", id:3222}
+  {name:"Frozen Heart", id:3110, tank:true}, {name:"Locket of the Iron Solari", id:3190, tank:true}, {name:"Redemption", id:3107, ap:true},
+  {name:"Bloodthirster", id:3072, ad:true}, {name:"Statikk Shiv", id:3087, ad:true}, {name:"Runaan's Hurricane", id:3085, ad:true},
+  {name:"Rapid Firecannon", id:3094, ad:true}, {name:"Essence Reaver", id:3508, ad:true}, {name:"Sterak's Gage", id:3053, tank:true, ad:true},
+  {name:"Black Cleaver", id:3071, ad:true}, {name:"Morellonomicon", id:3165, ap:true}, {name:"Mikael's Blessing", id:3222, ap:true}
 ].map(it => ({...it, url: ddItem(it.id)}));
 
 export const BOOT_POOL = [

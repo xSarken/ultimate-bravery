@@ -48,6 +48,8 @@ export default function Card({ slot, index, onReroll }){
             {isSupport && <span style={{color:'var(--support)'}}> (support item guaranteed)</span>}
             {slot.hasNoBoots && <span style={{color:'var(--adc)'}}> · barefoot (no boots)</span>}
             {slot.isTank && <span style={{color:'var(--jungle)'}}> · tank items only</span>}
+            {slot.isAP && <span style={{color:'var(--mid)'}}> · full AP build</span>}
+            {slot.isAD && <span style={{color:'var(--top)'}}> · full AD build</span>}
             {slot.bonusBootSlot && <span style={{color:'var(--adc)'}}> · bonus boot slot (7 items)</span>}
           </div>
           <div className="chips"><ItemChips items={slot.items} /></div>

@@ -28,9 +28,20 @@ function pickRunes(rng){
   };
 }
 
+// Same as pickUnique, but picking a challenge with a `group` (e.g. the
+// mutually-exclusive onlyTank/onlyAP/onlyAD build-archetype trio) removes
+// the rest of that group too, so a slot never gets told to build two
+// contradictory item sets at once.
 function pickChallenges(rng, role){
-  const pool = role.key === 'adc' ? CHALLENGES.filter(c=>!c.noBoots) : CHALLENGES;
-  return pickUnique(rng, pool, 3);
+  let pool = (role.key === 'adc' ? CHALLENGES.filter(c=>!c.noBoots) : CHALLENGES).slice();
+  const out = [];
+  for(let i=0;i<3 && pool.length>0;i++){
+    const idx = Math.floor(rng()*pool.length);
+    const picked = pool[idx];
+    out.push(picked);
+    pool = pool.filter(c => c!==picked && !(picked.group && c.group===picked.group));
+  }
+  return out;
 }
 
 function insertAtRandomIndex(rng, arr, item, minIndex){
@@ -39,12 +50,18 @@ function insertAtRandomIndex(rng, arr, item, minIndex){
   return [...arr.slice(0,idx), item, ...arr.slice(idx)];
 }
 
-function pickItems(rng, role, hasNoBoots, isTank){
+function pickItems(rng, role, hasNoBoots, isTank, isAP, isAD){
   const supportItem = role.key === 'support' ? {...pickOne(rng, SUPPORT_ITEMS), isSupport:true} : null;
   let pool = ITEM_POOL.filter(it => !supportItem || it.name !== supportItem.name);
   if(isTank){
     const tankOnly = pool.filter(it=>it.tank);
     pool = tankOnly.length >= 6 ? tankOnly : [...tankOnly, ...pool.filter(it=>!it.tank)];
+  } else if(isAP){
+    const apOnly = pool.filter(it=>it.ap);
+    pool = apOnly.length >= 6 ? apOnly : [...apOnly, ...pool.filter(it=>!it.ap)];
+  } else if(isAD){
+    const adOnly = pool.filter(it=>it.ad);
+    pool = adOnly.length >= 6 ? adOnly : [...adOnly, ...pool.filter(it=>!it.ad)];
   }
   // ADC house rule: boots are a bonus 7th slot (their "role quest" reward), never
   // traded away — so ADC always gets a full 6 core items PLUS boots. `coreNeed`
@@ -104,7 +121,9 @@ export function buildSlot(rng, role, champ, playerName){
   const challenges = pickChallenges(rng, role);
   const hasNoBoots = challenges.some(c=>c.noBoots);
   const isTank = challenges.some(c=>c.onlyTank);
-  const { items, bonusBootSlot } = pickItems(rng, role, hasNoBoots, isTank);
+  const isAP = challenges.some(c=>c.onlyAP);
+  const isAD = challenges.some(c=>c.onlyAD);
+  const { items, bonusBootSlot } = pickItems(rng, role, hasNoBoots, isTank, isAP, isAD);
   const skillOrder = pickSkillOrder(rng, champ);
   const punishment = pickOne(rng, PUNISHMENTS);
   let spells;
@@ -115,7 +134,7 @@ export function buildSlot(rng, role, champ, playerName){
     const two = pickUnique(rng, SPELLS_NON_JUNGLE, 2);
     spells = two.map(n=>({name:n, forced:false}));
   }
-  return { role, champ, playerName, runes, items, spells, challenges, hasNoBoots, isTank, bonusBootSlot, skillOrder, punishment };
+  return { role, champ, playerName, runes, items, spells, challenges, hasNoBoots, isTank, isAP, isAD, bonusBootSlot, skillOrder, punishment };
 }
 
 // Champion/role/build are rolled first per anonymous slot, then the 5
